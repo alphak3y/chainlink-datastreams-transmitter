@@ -1,0 +1,3 @@
+[submodule "lib/chainlink-price-feed-contracts"]
+	path = lib/chainlink-price-feed-contracts
+	url = https://github.com/deoalade/chainlink-price-feed-contracts

@@ -48,6 +48,9 @@ COPY --from=build /transmitter/build /transmitter/build
 COPY --from=build /transmitter/public /transmitter/public
 ADD . .
 
+# Copy config file
+COPY config.yml /transmitter/config.yml
+
 # Create a non-root user
 RUN addgroup --system --gid 1001 nodejs && \
     adduser --system --uid 1001 --gid 1001 nodeuser
