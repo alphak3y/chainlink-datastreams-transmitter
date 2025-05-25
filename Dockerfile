@@ -43,13 +43,14 @@ FROM base
 WORKDIR /transmitter
 
 COPY --from=production-deps /transmitter/node_modules /transmitter/node_modules
-
 COPY --from=build /transmitter/build /transmitter/build
 COPY --from=build /transmitter/public /transmitter/public
-ADD . .
 
-# Copy config file
+# Copy config file first
 COPY config.yml /transmitter/config.yml
+
+# Copy the rest of the application files
+COPY . .
 
 # Create a non-root user
 RUN addgroup --system --gid 1001 nodejs && \

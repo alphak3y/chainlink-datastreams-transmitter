@@ -404,9 +404,35 @@ function initJobs({ feeds, interval }: { feeds: string[]; interval: string }) {
     jobs.push(
       ...feeds.map((feedId) => {
         const consumer = createDatastream([feedId]);
+        
+        // Add connection event logging
+        consumer.on('connect', () => {
+          logger.info(`🔌 Connected to Data Streams for feed ${feedId}`);
+        });
+
+        // Add disconnection event logging
+        consumer.on('disconnect', () => {
+          logger.warn(`🔌 Disconnected from Data Streams for feed ${feedId}`);
+        });
+
+        // Add error event logging
+        consumer.on('error', (error: any) => {
+          logger.error(`❌ Data Streams error for feed ${feedId}:`, error);
+        });
+
+        // Enhanced report logging
         consumer.on('report', async (report: StreamReport) => {
+          logger.info(`📊 Received report for feed ${feedId}:`, {
+            feedId,
+            price: getReportPrice(report),
+            timestamp: new Date(Number(report.validFromTimestamp) * 1000).toISOString(),
+            expiresAt: new Date(Number(report.expiresAt) * 1000).toISOString(),
+            nativeFee: report.nativeFee.toString(),
+            linkFee: report.linkFee.toString()
+          });
           setLatestReport(report);
         });
+
         return {
           feedId,
           job: createCronJob(feedId, interval),

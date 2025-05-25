@@ -71,9 +71,12 @@ export const getAllVerifiers = async (): Promise<
 ];
 
 export async function getVerifier(chainId: string) {
+  console.log('chainId check:', chainId);
   const customVerifier = await getVerifierAddress(chainId);
+  console.log('customVerifier check:', customVerifier);
   if (customVerifier && isAddress(customVerifier)) return customVerifier;
   const verifier = defaultVerifiers[Number(chainId)];
+  console.log('verifier check:', verifier);
   if (!verifier) {
     logger.warn(`Verifier not found for chainId: ${chainId}`);
     return;
