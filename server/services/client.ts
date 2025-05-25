@@ -85,18 +85,27 @@ export async function executeContract({
     logger.info('📝 Prepared verification transaction', report);
 
     const args = functionArgs.map((arg) => report[arg as keyof typeof report]);
-
+    console.log('args check:', args);
     const address = await getContractAddress(report.feedId, chainId);
     if (!address || !isAddress(address)) {
       logger.warn('⚠️ Contract address is missing');
       return;
     }
+    console.log('address check:', address);
     const clients = await getClients();
     if (!clients || !clients.publicClient || !clients.walletClient) {
       logger.warn('⚠️ Invalid clients', { clients });
       return;
     }
     const { publicClient, walletClient } = clients;
+    console.log('publicClient check');
+    console.log('walletClient check');
+    console.log('estimateContractGas args check');
+    console.log('account check:', account);
+    console.log('address check:', address);
+    console.log('abi check:', abi);
+    console.log('functionName check:', functionName);
+    console.log('args check:', args);
     const gas = await estimateContractGas(publicClient, {
       account,
       address,

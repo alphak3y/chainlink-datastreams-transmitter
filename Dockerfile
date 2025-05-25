@@ -42,6 +42,9 @@ FROM base
 
 WORKDIR /transmitter
 
+# Install redis-cli
+RUN apt-get update && apt-get install -y redis-tools && rm -rf /var/lib/apt/lists/*
+
 COPY --from=production-deps /transmitter/node_modules /transmitter/node_modules
 COPY --from=build /transmitter/build /transmitter/build
 COPY --from=build /transmitter/public /transmitter/public
@@ -51,6 +54,9 @@ COPY config.yml /transmitter/config.yml
 
 # Copy the rest of the application files
 COPY . .
+
+# Make the startup script executable
+RUN chmod +x start.sh
 
 # Create a non-root user
 RUN addgroup --system --gid 1001 nodejs && \
@@ -62,4 +68,5 @@ RUN chown -R nodeuser:nodejs /transmitter
 # Switch to non-root user for runtime
 USER nodeuser
 
-CMD ["npm", "start"]
+# Use the startup script instead of npm start
+CMD ["./start.sh"]

@@ -1,0 +1,54 @@
+feeds:
+  - name: 'UBTC/USD'
+    feedId: '0x00037da06d56d083fe599397a4769a042d63aa73dc4ef57709d31e9971a5b439'
+chainId: 998
+gasCap: '150000'
+interval: '*/1 * * * * *'
+priceDeltaPercentage: 0.001
+chains:
+  - id: 998
+    name: 'Hyperliquid EVM Testnet'
+    currencyName: 'Hyperliquid'
+    currencySymbol: 'HYPE'
+    currencyDecimals: 18
+    rpc: 'https://rpc.hyperliquid-testnet.xyz/evm'
+verifierAddresses:
+  - chainId: 998
+    address: '0x60fAa7faC949aF392DFc858F5d97E3EEfa07E9EB'
+targetChains:
+  - chainId: 998
+    targetContracts:
+      - feedId: '0x00037da06d56d083fe599397a4769a042d63aa73dc4ef57709d31e9971a5b439'
+        address: '0x9c7aa2a13c14fb94f9C42A8553987c40b470fFC4'
+        functionName: 'updatePriceData'
+        functionArgs:
+          - 'verifySignedReportRequest'
+          - 'parameterPayload'
+        abi:
+          [
+            {
+
+              'inputs':[
+                  {
+                    'name':'verifySignedReportRequest',
+                    'type':'bytes',
+                    'internalType':'bytes'
+                  },
+                  {
+                    'name':'parameterPayload',
+                    'type':'bytes',
+                    'internalType':'bytes'
+                  }
+              ],
+              'name':'updatePriceData',
+              'outputs':[
+                  {
+                    'name':'',
+                    'type':'bytes',
+                    'internalType':'bytes'
+                  }
+              ],
+              'stateMutability':'nonpayable',
+              'type':'function',
+            },
+          ] 
